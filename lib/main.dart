@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:unit_converter/providers/MeasureProvider.dart';
 import 'package:unit_converter/widgets/TouchKeyboard.dart';
@@ -42,19 +41,11 @@ class MyAppState extends State<MyApp> {
         iconTheme: IconThemeData(color: Colors.black87),
         backgroundColor: Colors.white24,
         elevation: 0,
-        title: Row(
-          children: [
-            Text(
-              _appBarTitle,
-              style: TextStyle(
-                color: Colors.black87,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Icon(Ionicons.resize_outline),
-            ),
-          ],
+        title: Text(
+          _appBarTitle,
+          style: TextStyle(
+            color: Colors.black87,
+          ),
         ),
       ),
       // drawer: MeasureDrawer(),
