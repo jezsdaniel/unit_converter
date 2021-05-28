@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unit_converter/providers/MeasureProvider.dart';
+import 'package:unit_converter/widgets/TouchKeyboard.dart';
+import 'package:unit_converter/widgets/MeasureInput.dart';
+import 'package:unit_converter/widgets/MeasureDrawer.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: 'Unit converter',
-    home: MyApp(),
+  runApp(ChangeNotifierProvider(
+    create: (_) => MeasureProvider(),
+    child: MaterialApp(
+      title: 'Unit converter',
+      home: MyApp(),
+    ),
   ));
 }
 
@@ -15,26 +23,9 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   String _appBarTitle = '';
 
-  double? _numberForm;
-
-  String? _startMeasure;
-  String? _convertedMeasure;
-
-  final List<String> _measures = [
-    'meters',
-    'kilometers',
-    'grams',
-    'kilograms',
-    'feet',
-    'miles',
-    'pounds (lbs)',
-    'ounces',
-  ];
-
   @override
   void initState() {
-    _numberForm = 0;
-    _appBarTitle = "Lenght";
+    _appBarTitle = "Length";
     super.initState();
   }
 
@@ -43,12 +34,7 @@ class MyAppState extends State<MyApp> {
     double sizeX = MediaQuery.of(context).size.width;
     double sizeY = MediaQuery.of(context).size.height;
 
-    final TextStyle inputStyle =
-        TextStyle(fontSize: 20, color: Colors.blue[900]);
-    final TextStyle labelStyle =
-        TextStyle(fontSize: 24, color: Colors.grey[700]);
-
-    final spacer = Padding(padding: EdgeInsets.only(bottom: sizeY / 40));
+    final spacer = Padding(padding: EdgeInsets.only(bottom: sizeY / 60));
 
     return Scaffold(
       appBar: AppBar(
@@ -62,41 +48,34 @@ class MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: Text('Length'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Weight'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      // drawer: MeasureDrawer(),
       body: Container(
         width: sizeX,
-        padding: EdgeInsets.all(sizeX / 20),
+        padding: EdgeInsets.only(top: sizeX / 20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'From:',
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: sizeX / 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MeasureInput(
+                    hintText: 'From',
+                    isInput: true,
+                  ),
+                  spacer,
+                  MeasureInput(
+                    hintText: 'To',
+                    isInput: false,
+                  ),
+                ],
+              ),
             ),
-            Text(
-              'To:',
+            Container(
+              alignment: Alignment.center,
+              child: TouchKeyboard(),
             ),
           ],
         ),
